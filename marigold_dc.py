@@ -56,6 +56,10 @@ class MarigoldDepthCompletionPipeline(MarigoldDepthPipeline):
         device = self._execution_device
         generator = torch.Generator(device=device).manual_seed(seed)
 
+
+        #sparse_depth = np.zeros_like(sparse_depth)
+        #sparse_depth[0][0] = 1
+        #sparse_depth[0][-1] = 0.5
         # Check inputs.
         if num_inference_steps is None:
             raise ValueError("Invalid num_inference_steps")

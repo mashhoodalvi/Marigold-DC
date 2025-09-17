@@ -1,0 +1,25 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandJob.schema.json
+type: command
+display_name: marigold-dc-inference
+experiment_name: diffusion-models
+
+
+command: >
+  bash -c "python marigold_dc.py --in-image=${{inputs.data}}/input_rgb.png --in-depth=${{inputs.data}}/depth_gt_m.npy \
+          --out-depth 'outputs/dense_100.npy' --num_inference_steps 10 --processing_resolution 512"
+
+code: ..
+
+inputs:
+  data:
+    type: uri_folder
+    # use registered data asset by name:version (or set a direct azureml:// path)
+    path: azureml:prior_depth_test:1
+    mode: ro_mount
+
+outputs:
+  model_dir:
+    type: uri_folder
+
+environment: azureml:diffusion-finetune:8
+compute: mashhood-alvi-gpu
